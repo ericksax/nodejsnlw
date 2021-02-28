@@ -1,9 +1,10 @@
 import { getCustomRepository } from "typeorm"
-import {Request, Response } from "express"
+import {Request, response, Response } from "express"
 import { UsersRepository } from "../repositories/UserRepository"
 import { SurveyRepository } from "../repositories/SurveyRepository"
 import { SurveyUsersRepository } from "../repositories/SurveyUsersRepository"
 import SendMailService from "../services/SendMailService"
+import {resolve} from "path"
 
 
 class SendMailController {
@@ -16,9 +17,9 @@ class SendMailController {
     const surveyUsersRepository = getCustomRepository(SurveyUsersRepository)
 
 
-    const userAlreadyExists = await usersRepository.findOne({email})
+    const user = await usersRepository.findOne({email})
 
-    if (!userAlreadyExists) {
+    if (!user) {
         return res.status(400).json({ error: "User does note exists" })
     }
 
@@ -27,14 +28,37 @@ class SendMailController {
     if (!survey) {
         return res.status(400).json({ error: "Survey does not exist" })
     }
+    
+    
+    const variables = {
+        name: user.name,
+        title: survey.title, 
+        description: survey.description,
+        user_id: user.id,
+        Link: process.env.URL_MAIL,
+    }
+    
+    const npsPath = resolve(__dirname, "..", "views", "email", "emailTemplate.hbs")
+
+    const surveyUsersAlreadyExists = await surveyUsersRepository.findOne({ 
+        where: [{user_id: user.id}, {value: null}],
+        relations: ["user", "survey"]
+    })
+  
+
+    if(surveyUsersAlreadyExists) {
+        await SendMailService.execute(email, survey.title, variables, npsPath)
+        return res.json(surveyUsersAlreadyExists)
+    }
 
     const surveyUser = surveyUsersRepository.create({
-        user_id: userAlreadyExists.id,
+        user_id: user.id,
         survey_id
     })
     await surveyUsersRepository.save(surveyUser)
 
-    await SendMailService.execute(email, survey.title, survey.description )
+
+    await SendMailService.execute(email, survey.title, variables, npsPath)
 
     return res.status(200).json(surveyUser)
     }
