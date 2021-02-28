@@ -1,0 +1,85 @@
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+
+
+    .container {
+        padding: 15px;
+        display: flex;
+        max-width: 800px;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        flex-direction: column;
+        border: solid 2px #8257e6;
+        margin: auto;
+    }
+
+    .value {
+        
+        background: #8257e6;
+        color: #fff;
+        border-radius: 6px;
+        width: 30px;
+        margin: 2px;
+        text-align: center;
+        text-justify: center;
+        text-decoration: none;
+        
+    }
+
+    .level {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px;
+        width: 350px
+    }
+    .answers {
+        padding: 10px;
+        max-width: 350px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .center {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+<div class="container center">
+    <label>ola <strong>{{name}}</strong! Tubo bem?></label>
+
+    <h3 class="center">{{title}}</h3>
+    <br />
+    <strong class="center">{{description}}</strong>
+
+
+
+    <div class="level">
+        <span>Pouco provavel</span>
+        <span>Muito provavel</span>
+    </div>
+    
+    <div class="answers">
+        <a class="value" href="#">1</a>
+        <a class="value" href="#">2</a>
+        <a class="value" href="#">3</a>
+        <a class="value" href="#">4</a>
+        <a class="value" href="#">5</a>
+        <a class="value" href="#">6</a>
+        <a class="value" href="#">7</a>
+        <a class="value" href="#">8</a>
+        <a class="value" href="#">9</a>
+        <a class="value" href="#">10</a>
+    </div>
+
+    <br/>
+    <br/>
+
+    <strong class="center">Erikao | Development</strong>
+
+</div>
