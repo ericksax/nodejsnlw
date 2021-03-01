@@ -1,7 +1,9 @@
 import { SurveyUsersRepository } from "../repositories/SurveyUsersRepository"
 import { getCustomRepository } from "typeorm"
+import { Request, Response } from "express"
 
 // rote params => app.router("/answer/:nota")
+//query params => parametros pra busca, paginacao. Vem apos o ponto de interrogacao
 class AnswerController {
     async execute(req: Request, res: Response) {
         const { value } = req.params
@@ -13,7 +15,7 @@ class AnswerController {
         })
         if(!surveyUser) {
             return res.status(400).json({
-                error: "Survey User dos not exists"
+                error: "Survey User does not exists"
            })
         }
 
