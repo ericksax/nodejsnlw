@@ -1,5 +1,5 @@
 import { getCustomRepository } from "typeorm"
-import {Request, response, Response } from "express"
+import {Request, Response } from "express"
 import { UsersRepository } from "../repositories/UserRepository"
 import { SurveyRepository } from "../repositories/SurveyRepository"
 import { SurveyUsersRepository } from "../repositories/SurveyUsersRepository"
